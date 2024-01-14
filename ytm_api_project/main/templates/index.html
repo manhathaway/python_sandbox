@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block head %}{% endblock %}
+
+{% block body %}
+<div id="listen-history">
+    <div class="tracks">
+    {% for i in api_data: %}
+        <div class="track">
+            {% if 'thumbnail' in i %}
+                <img class="track-thumbnail" src="{{ i['thumbnail'] }}">
+            {% else %}
+                <img class="track-thumbnail" src="">
+            {% endif %}
+            
+            {% if i['artist']|length > 20 %}
+                <p class="track-artist">{{ i['artist'][:20] + '..' }}</p>
+            {% else %}
+                <p class="track-artist">{{ i['artist'] }}</p>
+            {% endif %}
+    
+            {% if 'album' in i %}
+                {% if i['album']|length > 20 %}
+                    <p class="track-album">{{ i['album'][:20] + '..' }}</p>
+                {% else %}
+                    <p class="track-album">{{ i['album'] }}</p>
+                {% endif %}
+            {% else %}
+                <p class="track-album"></p>
+            {% endif %}
+    
+            {% if i['track']|length > 20 %}
+                <p class="track-title">{{ i['track'][:20] + '..' }}</p>
+            {% else %}
+                <p class="track-title">{{ i['track'] }}</p>
+            {% endif %}
+
+            <p class="track-time">{{ i['time'] }}</p>
+        </div>
+    {% endfor %}
+    </div>
+</div>
+{{ api_data|length }}
+{% endblock %}

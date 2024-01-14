@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block head %}{% endblock %}
+
+{% block body %}
+<div class="page">
+    <h1 id="page-title">Listening Statistics</h1>
+    <div class="artists">
+        {% for i in json_data: %}
+            <div class="artist">
+                <div class="artist-header">
+                    <div class="labels">
+                        <p>Artist</p>
+                        <p>Play Count</p>
+                    </div>
+                    <div>
+                        <p class="artist-title">{{ i['artist'] }}</p>
+                        <p class="artist-playCount">{{ i['playCount'] }}</p>
+                    </div>
+                </div>
+                <div class="labels labels-grid">
+                    <p>Track</p>
+                    <p style="margin-left: 22px">Last Played On</p>
+                    <p>Play Count</p>
+                </div>
+                <div class="tracks">
+                    {% for j in i['tracks'] %}
+                        <div class="track">
+                            {% if j['track']|length > 30 %}
+                                <p class="track-title">{{ j['track'][:30] + '..' }}</p>
+                            {% else %}
+                                <p class="track-title">{{ j['track'] }}</p>
+                            {% endif %}
+                            
+                            {% set months = ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May.', 'Jun.', 'Jul.', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.'] %}
+                            {% if j['playedLast'][8] == '0' %}
+                                <p class="track-lastPlayed">{{ months[j['playedLast'][5:7]|int - 1] + ' ' + j['playedLast'][9:10] + ', \'' + j['playedLast'][2:4] }}</p>
+                            {% else %}
+                                <p class="track-lastPlayed">{{ months[j['playedLast'][5:7]|int - 1] + ' ' + j['playedLast'][8:10] + ', \'' + j['playedLast'][2:4] }}</p>
+                            {% endif %}
+                            <p class="track-playCount">{{ j['playCount'] }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
